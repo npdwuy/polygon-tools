@@ -364,7 +364,7 @@ if __name__ == '__main__':
             Problems_data.texs, Problems_data.generators, Problems_data.scripts, Problems_data.folders
         ))
 
-# ==========================================
+        # ==========================================
         # ⚙️ CẤU HÌNH QUY TRÌNH (PIPELINE CONFIG)
         # ==========================================
         PIPELINE = {
@@ -373,7 +373,7 @@ if __name__ == '__main__':
             "GEN":    True,  # [3] Upload file generator
             "TESTS":  True,  # [4] Chạy script gen test và chia điểm
             "COMMIT": True,  # [5] Ghi nhận thay đổi (Commit) lên server
-            "BUILD":  False   # [6] Build standard package và tải về máy
+            "BUILD":  False  # [6] Build standard package và tải về máy
         }
         
         problem_cache = load_local_cache()
@@ -389,26 +389,26 @@ if __name__ == '__main__':
                 print(f"❌ Bỏ qua bài {int_name} do không xác định được Polygon ID.")
                 continue
 
-            # Cờ theo dõi sự thay đổi để quyết định có Commit hay không
             has_changes = False
 
-            if PIPELINE["SETUP"]:
-                setup_basic_info(pid, stmt_name, tex_path)
-                has_changes = True
+            # Gói gọn tất cả các bước thành một danh sách các hàm (Lambda/Callback)
+            steps = [
+                ("SETUP", lambda: setup_basic_info(pid, stmt_name, tex_path)),
+                ("MAIN",  lambda: upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA')),
+                ("GEN",   lambda: upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]')),
+                ("TESTS", lambda: setup_tests(pid, script_path))
+            ]
 
-            if PIPELINE["MAIN"]:
-                if upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA'):
-                    has_changes = True
-            
-            if PIPELINE["GEN"]:
-                if upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]'):
-                    has_changes = True
+            # Bộ máy thực thi (Dispatcher) tự động quét qua các bước
+            for step_name, action in steps:
+                if PIPELINE.get(step_name):
+                    result = action()
+                    # Nếu hàm chạy xong và không trả về False (True hoặc None), ta đánh dấu là có thay đổi
+                    if result is not False: 
+                        has_changes = True
 
-            if PIPELINE["TESTS"]:
-                setup_tests(pid, script_path)
-                has_changes = True
-
-            if PIPELINE["COMMIT"] and has_changes:
+            # Xử lý Commit (Chỉ commit nếu có bước nào đó ở trên chạy thành công)
+            if PIPELINE.get("COMMIT") and has_changes:
                 commit_problem_changes(pid, int_name)
 
             # Thêm bài tập vào danh sách để chạy Build lúc sau
@@ -417,5 +417,8 @@ if __name__ == '__main__':
         # ==========================================
         # CHẠY BUILD & DOWNLOAD DƯỚI DẠNG BATCH SAU CÙNG
         # ==========================================
-        if PIPELINE["BUILD"] and download_list:
+        if PIPELINE.get("BUILD") and download_list:
             build_and_download_packages(download_list)
+
+    except NameError as e:
+        print(f"Lỗi: {e}. Vui lòng kiểm tra lại class Problems_data.")
