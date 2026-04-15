@@ -2,9 +2,9 @@ import os
 
 ids_string = "" 
 
-base_dir = "D:\c++\work\Contest\name"
-inner_name = "name-"
-problem_name = "CONTEST SOURCE - YEAR - "
+base_dir = "D:\c++\work\Contest\OLPT4K10-HCM-2026"
+inner_name = "olpt4k10-"
+problem_name = "OLYMPIC T4 K10 - 2026 - "
 
 # Danh sách các thư mục muốn bỏ qua (viết thường để dễ so sánh)
 ignore_dirs = {"test", "tests", "template", "scripts"}
@@ -23,11 +23,11 @@ problems = [
 internal_names = [f"{inner_name}{p.lower()}" for p in problems]
 names = [f"{problem_name}{p}" for p in problems]
 
-folders =  [f"{base_dir}\\{p}" for p in problems]
-sols = [f"{directory}\\main.cpp" for directory in folders]
-texs = [f"{directory}\\main.tex" for directory in folders]
-scripts = [f"{directory}\\script.txt" for directory in folders]
-generators = [f"{directory}\\generator.cpp" for directory in folders]
+folders =  [f"{base_dir}/{p}" for p in problems]
+sols = [f"{directory}/main.cpp" for directory in folders]
+texs = [f"{directory}/main.tex" for directory in folders]
+scripts = [f"{directory}/script.txt" for directory in folders]
+generators = [f"{directory}/generator.cpp" for directory in folders]
 
 # Kiểm tra kết quả
 if __name__ == "__main__":

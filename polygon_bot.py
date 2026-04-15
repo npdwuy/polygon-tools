@@ -6,7 +6,7 @@ import string
 import hashlib
 import requests # type: ignore
 from typing import List, Tuple, Dict, Any, Optional
-from Data import TEMP_VN_2026 as Problems_data
+from Data import OLPT4K11_HCM_2026 as Problems_data
 
 # === CẤU HÌNH API ===
 API_PATH = r"D:\Polygon-Test-Generator\polygon.api"
@@ -373,7 +373,7 @@ if __name__ == '__main__':
             "GEN":    True,  # [3] Upload file generator
             "TESTS":  True,  # [4] Chạy script gen test và chia điểm
             "COMMIT": True,  # [5] Ghi nhận thay đổi (Commit) lên server
-            "BUILD":  False  # [6] Build standard package và tải về máy
+            "BUILD":  True  # [6] Build standard package và tải về máy
         }
         
         problem_cache = load_local_cache()
@@ -393,12 +393,12 @@ if __name__ == '__main__':
 
             # Gói gọn tất cả các bước thành một danh sách các hàm (Lambda/Callback)
             steps = [
-                ("SETUP", lambda: setup_basic_info(pid, stmt_name, tex_path)),
-                ("MAIN",  lambda: upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA')),
-                ("GEN",   lambda: upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]')),
-                ("TESTS", lambda: setup_tests(pid, script_path))
+                # ("SETUP", lambda: setup_basic_info(pid, stmt_name, tex_path)),
+                # ("MAIN",  lambda: upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA')),
+                # ("GEN",   lambda: upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]')),
+                # ("TESTS", lambda: setup_tests(pid, script_path))
             ]
-
+    
             # Bộ máy thực thi (Dispatcher) tự động quét qua các bước
             for step_name, action in steps:
                 if PIPELINE.get(step_name):

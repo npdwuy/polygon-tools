@@ -23,11 +23,11 @@ problems = [
 internal_names = [f"{inner_name}{p.lower()}" for p in problems]
 names = [f"{problem_name}{p}" for p in problems]
 
-folders =  [f"{base_dir}/{p}" for p in problems]
-sols = [f"{directory}/main.cpp" for directory in folders]
-texs = [f"{directory}/main.tex" for directory in folders]
-scripts = [f"{directory}/script.txt" for directory in folders]
-generators = [f"{directory}/generator.cpp" for directory in folders]
+folders =  [f"{base_dir}\\{p}" for p in problems]
+sols = [f"{directory}\\main.cpp" for directory in folders]
+texs = [f"{directory}\\main.tex" for directory in folders]
+scripts = [f"{directory}\\script.txt" for directory in folders]
+generators = [f"{directory}\\generator.cpp" for directory in folders]
 
 # Kiểm tra kết quả
 if __name__ == "__main__":

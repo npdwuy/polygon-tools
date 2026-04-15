@@ -2,9 +2,9 @@ import os
 
 ids_string = "" 
 
-base_dir = "D:\c++\work\Contest\name"
-inner_name = "name-"
-problem_name = "CONTEST SOURCE - YEAR - "
+base_dir = "D:\c++\work\Contest\OLPT4K11-HCM-2026"
+inner_name = "olpt4k11-"
+problem_name = "OLYMPIC T4 K11 - 2026 - "
 
 # Danh sách các thư mục muốn bỏ qua (viết thường để dễ so sánh)
 ignore_dirs = {"test", "tests", "template", "scripts"}
