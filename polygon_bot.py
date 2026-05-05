@@ -6,7 +6,7 @@ import string
 import hashlib
 import requests # type: ignore
 from typing import List, Tuple, Dict, Any, Optional
-from Data import OLPT4K11_HCM_2026 as Problems_data
+from Data import PRETS10c1_TPB_2026 as Problems_data
 
 # === CẤU HÌNH API ===
 API_PATH = r"D:\Polygon-Test-Generator\polygon.api"
@@ -206,10 +206,11 @@ def setup_tests(pid: int, script_path: str):
     print(f"[{pid}] [TESTS] Phân bổ {total_tests} tests (2 sample), chia đều 100 điểm...")
     call_polygon_api('problem.enablePoints', {'problemId': pid, 'enable': 'true'})
     
+    sample_test = 0
     base_points = round(100.0 / total_tests, 2)
     for idx, cmd in enumerate(clean_lines, start=1):
         points = round(100.0 - (base_points * (total_tests - 1)), 2) if idx == total_tests else base_points
-        is_sample = 'true' if idx <= 2 else 'false'
+        is_sample = 'true' if idx <= sample_test else 'false'
 
         res_test = call_polygon_api('problem.saveTest', {
             'problemId': pid, 'testset': 'tests', 'testIndex': str(idx),
@@ -393,10 +394,10 @@ if __name__ == '__main__':
 
             # Gói gọn tất cả các bước thành một danh sách các hàm (Lambda/Callback)
             steps = [
-                # ("SETUP", lambda: setup_basic_info(pid, stmt_name, tex_path)),
-                # ("MAIN",  lambda: upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA')),
-                # ("GEN",   lambda: upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]')),
-                # ("TESTS", lambda: setup_tests(pid, script_path))
+                ("SETUP", lambda: setup_basic_info(pid, stmt_name, tex_path)),
+                ("MAIN",  lambda: upload_file_to_polygon(pid, sol_path, 'solution', os.path.basename(sol_path), '[MAIN SOL]', 'MA')),
+                ("GEN",   lambda: upload_file_to_polygon(pid, gen_path, 'source', 'generator.cpp', '[GENERATOR]')),
+                ("TESTS", lambda: setup_tests(pid, script_path))
             ]
     
             # Bộ máy thực thi (Dispatcher) tự động quét qua các bước

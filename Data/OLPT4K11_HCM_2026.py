@@ -8,7 +8,7 @@ problem_name = "OLYMPIC T4 K11 - 2026 - "
 
 # Danh sách các thư mục muốn bỏ qua (viết thường để dễ so sánh)
 ignore_dirs = {"test", "tests", "template", "scripts"}
-use_dirs = {""}
+use_dirs = {"dna"}
 
 # Lọc: Phải là thư mục + Không bắt đầu bằng '.' + Không nằm trong danh sách bỏ qua
 problems = [
@@ -16,7 +16,7 @@ problems = [
     if os.path.isdir(os.path.join(base_dir, f)) 
     and not f.startswith('.') 
     and f.lower() not in ignore_dirs
-    # and f.lower() in use_dirs
+    and f.lower() in use_dirs
 ]
 
 # Tự động sinh các danh sách

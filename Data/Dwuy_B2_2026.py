@@ -2,13 +2,13 @@ import os
 
 ids_string = "" 
 
-base_dir = "D:\c++\work\Contest\Dwuy-B1-2026"
-inner_name = "dwuyb126-"
-problem_name = "DWUY B1 - 2026 - "
+base_dir = "D:\c++\work\Contest\Dwuy-B2-2026"
+inner_name = "dwuyb226-"
+problem_name = "DWUY B2 - 2026 - "
 
 # Danh sách các thư mục muốn bỏ qua (viết thường để dễ so sánh)
 ignore_dirs = {"test", "tests", "template", "scripts"}
-use_dirs = {"threesum"}
+use_dirs = {"tong", "capso"}
 
 # Lọc: Phải là thư mục + Không bắt đầu bằng '.' + Không nằm trong danh sách bỏ qua
 problems = [
@@ -16,7 +16,7 @@ problems = [
     if os.path.isdir(os.path.join(base_dir, f)) 
     and not f.startswith('.') 
     and f.lower() not in ignore_dirs
-    # and f.lower() in use_dirs
+    and f.lower() in use_dirs
 ]
 
 # Tự động sinh các danh sách
